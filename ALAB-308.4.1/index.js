@@ -164,3 +164,39 @@ const result = [objectsSortedID[0], obj1, ...objectsSortedID.slice(1), additiona
 console.log(`Better way to do the same thing:`);
 result.forEach(obj => console.log(obj));
 
+
+console.log("*************** Part  *********************");
+//TODO: Part 5: Full Circle
+// As a final task, transform the final set of data back into CSV format.
+// There are a number of ways to do this; be creative!
+
+function transformToCSV1(objects) {
+    let csvString = "";
+
+    // Heading row
+    const keys = Object.keys(objects[0]);
+    for (let i = 0; i < keys.length; i++) {
+        csvString += keys[i];
+        if (i < keys.length - 1) {
+            csvString += ",";
+        }
+    }
+    csvString += "\n";
+
+    // Data rows
+    for (let i = 0; i < objects.length; i++) {
+        const obj = Object.values(objects[i]);
+        for (let j = 0; j < obj.length; j++) {
+            csvString += obj[j];
+            if (j < obj.length - 1) {
+                csvString += ",";
+            }
+        }
+        csvString += "\n";
+    }
+
+    return csvString;
+}
+
+console.log("Transformed to CSV:");
+console.log(`The given objects: ${csvString2} \n********************\nthe transformed CSV: ${transformToCSV1(result)}`);
