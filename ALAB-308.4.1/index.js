@@ -70,3 +70,14 @@ const table = parseTable(csvString);
 printTabel(table);
 
 console.log("====================================");
+
+//TODO: Part 2: Expanding Functionality
+// Declare a variable that stores the number of columns in each row of data within the CSV.
+// Instead of hard-coding four columns per row, expand your code to accept any number of columns. 
+// This should be calculated dynamically based on the first row of data.
+let rows = table.length;
+let columns = table[0].length;
+console.log(`Number of rows: ${rows}`);
+console.log(`Number of columns: ${columns}`);
+console.log("Tabel is already done as 2 dimentional array from part 1");
+console.log("====================================");
