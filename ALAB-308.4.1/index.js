@@ -127,34 +127,40 @@ console.log("**************** Part 4 ***********************");
 
 const objects = createObject(csvString2);
 // First sort the objects by Id.
-const arrSortById = objects.sort((a, b) => a.id - b.id);
+const objectsSortedID = objects.sort((a, b) => a.id - b.id);
 console.log(`Sorted by ID:`);
-arrSortById.forEach(obj => console.log(obj));
+objectsSortedID.forEach(obj => console.log(obj));
 
 // Remove the last element
-arrSortById.pop();
+objectsSortedID.pop();
 console.log(`After removing last element:`);
-arrSortById.forEach(obj => console.log(obj));
+objectsSortedID.forEach(obj => console.log(obj));
 
 // TODO: Insert the object at index 1
 const obj1 = { id: "48", name: "Barry", occupation: "Runner", age: "25" };
 
 // create a new array by adding the object at index 1.
-const arrSortById2 = arrSortById.slice(0, 1)
-
-// add the object at index 1.
-arrSortById2.push(obj1);
-
-// add the rest of the elements.
-for (let i = 1; i < arrSortById.length; i++) {
-    arrSortById2.push(arrSortById[i]);
+const finalOutput = [];
+for (let i = 0; i < objectsSortedID.length; i++) {
+    if (i === 1) {
+        finalOutput.push(obj1);
+    }
+    finalOutput.push(objectsSortedID[i]);
 }
 console.log(`After inserting object at index 1:`);
-arrSortById2.forEach(obj => console.log(obj));
+finalOutput.forEach(obj => console.log(obj));
 
 // TODO: Add the object to the end of the array.
 const additionalObg = { id: "7", name: "Bilbo", occupation: "None", age: "111" };
-arrSortById2.push(additionalObg);
+finalOutput.push(additionalObg);
 
 console.log(`After adding object to the end of the array:`);
-arrSortById2.forEach(obj => console.log(obj));
+finalOutput.forEach(obj => console.log(obj));
+
+
+// Another way to do the same thing.
+console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+const result = [objectsSortedID[0], obj1, ...objectsSortedID.slice(1), additionalObg];
+console.log(`Better way to do the same thing:`);
+result.forEach(obj => console.log(obj));
+
