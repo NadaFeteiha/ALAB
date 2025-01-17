@@ -165,7 +165,7 @@ console.log(`Better way to do the same thing:`);
 result.forEach(obj => console.log(obj));
 
 
-console.log("*************** Part  *********************");
+console.log("*************** Part 5 *********************");
 //TODO: Part 5: Full Circle
 // As a final task, transform the final set of data back into CSV format.
 // There are a number of ways to do this; be creative!
@@ -199,4 +199,26 @@ function transformToCSV1(objects) {
 }
 
 console.log("Transformed to CSV:");
-console.log(`The given objects: ${csvString2} \n********************\nthe transformed CSV: ${transformToCSV1(result)}`);
+
+// Another way using join method.
+function transformToCSV2(objects) {
+    let csvString = "";
+
+    // Heading row
+    const keys = Object.keys(objects[0]);
+    csvString += keys.join(",") + "\n";
+
+    // Data rows
+    for (let i = 0; i < objects.length; i++) {
+        const obj = Object.values(objects[i]);
+        csvString += obj.join(",") + "\n";
+    }
+
+    return csvString;
+}
+
+function transformToCSV3(objects) {
+    return objects.map(obj => Object.values(obj).join(",")).join("\n");
+}
+
+console.log(`first way:\n${transformToCSV1(result)} \nsecand way:\n${transformToCSV2(result)}\nThird way:\n${transformToCSV3(result)}\n`);
