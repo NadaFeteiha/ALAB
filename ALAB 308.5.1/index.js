@@ -147,4 +147,68 @@ console.log("=====================================");
 //*************************************************************************************/
 console.log("################################### Part 3 ################################################");
 // Part 3: Thinking Critically
+// For this section, develop functions that accomplish the following:
+// Take an object and increment its age field.
+// Take an object, make a copy, and increment the age field of the copy. Return the copy.
+
+// change by reference
+function incrementAge(obj) {
+    if (!obj.hasOwnProperty('age')) {
+        obj.age = 0;
+    } else {
+        obj.age = parseInt(obj.age) + 1;
+    }
+    return obj;
+}
+
+let person = { id: "1", name: "Max", age: "41" };
+console.log(`The person before change: `);
+console.log(person);
+let personAfterChange = incrementAge(person);
+console.log(`The person after change: `);
+console.log(personAfterChange);
+console.log("the main object is changed too because it is passed by reference");
+console.log(person);
+console.log("=====================================");
+
+// change by value
+function incrementAgeByValue(obj) {
+    let objStr = JSON.stringify(obj)
+    let copy = JSON.parse(objStr);
+    // check if the age is found in the object
+    if (copy.hasOwnProperty('age')) {
+        copy.age = parseInt(copy.age) + 1;
+    } else {
+        copy.age = 0;
+    }
+    // add or modify updated_at field
+    copy.updated_at = new Date();
+    return copy;
+}
+
+let person2 = { id: "2", name: "John", age: "41" };
+console.log(`The person before change: `);
+console.log(person2);
+let personAfterChange2 = incrementAgeByValue(person2);
+console.log(`The person after change: `);
+console.log(personAfterChange2);
+console.log("the main object is not changed because it is passed by value");
+console.log(person2);
+console.log("=====================================");
+
+// IN CASE NO AGE FIELD
+let person3 = { id: "3", name: "Max" };
+console.log(`In case no age field: `);
+console.log(incrementAgeByValue(person3));
+
+
+// Thought experiment: since the Date object is an object,
+// what would happen if we modified it in the copy of the object created in 
+// the second function using setTime() or another method? 
+// it will change the original object too because the Date object is passed by reference
+
+// How could we circumvent potentially undesired behavior?
+
+
+
 
