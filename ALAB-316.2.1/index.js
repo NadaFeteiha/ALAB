@@ -16,7 +16,9 @@ const minNumber = 1;
 let userGuesses = [];
 
 function guessGame() {
-    const theWonderfulNumber = 7;
+    const luckyNumber = getRandomNumber(minNumber, maxNumber);
+    console.log(luckyNumber);
+
     let allowNumOfGuesses = allowedGuesses;
     userGuesses = [];
 
@@ -25,33 +27,34 @@ function guessGame() {
         let guess = prompt(`Guess number between ${minNumber} and ${maxNumber}`);
         let intGuess = checkGuess(guess);
 
-        while (intGuess !== theWonderfulNumber && allowNumOfGuesses > 1) {
+        while (intGuess !== luckyNumber && allowNumOfGuesses > 1) {
             let message = "You have " + allowNumOfGuesses + " guess left.";
 
             userGuesses.push(intGuess);
 
             message += "\nPrevious guesses: " + userGuesses.join(", ");
+            previousGausses.innerText = `your guesses : ${userGuesses}`;
 
-            if (intGuess > theWonderfulNumber) {
-                guess = prompt(`Too high. Guess again. \n${message}`);
-            } else {
-                guess = prompt(`Too low. Guess again.\n${message}`);
-            }
+            // if (intGuess > luckyNumber) {
+            //     guess = prompt(`Too high. Guess again. \n${message}`);
+            // } else {
+            //     guess = prompt(`Too low. Guess again.\n${message}`);
+            // }
 
             intGuess = checkGuess(guess);
             allowNumOfGuesses--;
         }
 
-        if (intGuess === theWonderfulNumber) {
-            window.alert("Congratulations! You guessed the correct number!");
-        } else {
-            window.alert("Sorry, you are out of guesses. The correct number was " + theWonderfulNumber);
-        }
+        // if (intGuess === luckyNumber) {
+        //     window.alert(`Congratulations! The lucky number is ${luckyNumber}!`);
+        // } else {
+        //     window.alert("Sorry, you are out of guesses. The correct number was " + luckyNumber);
+        // }
 
     } catch (error) {
-        window.alert(`Error: ${error.message}`);
+        // window.alert(`Error: ${error.message}`);
     } finally {
-        playAgain();
+        // playAgain();
     }
 }
 
@@ -75,13 +78,11 @@ function checkGuess(guess) {
     }
 }
 
-function drawTheBoard() {
-    const h6 = document.createElement("h6");
-    h6.innerText = `your guesses : ${userGuesses}`;
-    if (userGuesses.length > 0) {
-        app.appendChild(h6);
-    }
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
+function drawTheBoard() {
     let board = document.createElement("table");
     board.style.border = "1px solid black";
 
@@ -98,11 +99,25 @@ function drawTheBoard() {
         board.appendChild(row);
     }
     app.appendChild(board);
-    guessGame();
 }
 
-function init(){
-    drawTheBoard();
+function displayTime() {
+    //update time every second
+    let time = 180;
+    setInterval(() => {
+        time--;
+        h6.innerText = `Time left: ${time}`;
+    }, 1000);
+
+    //************Set Game Over**************** */
+    // game end after 3 minutes
+    // 3 minutes =  60 * 3 = 180 seconds 
+    // to milliseconds 180 * 1000 = 180000
+    setTimeout(() => {
+        h6.style.color = "red";
+        h6.innerText = "Game Over!";
+        // playAgain();
+    }, 10000);
 }
 
 //********  UI part ********
@@ -113,6 +128,15 @@ const h1 = document.createElement("h1");
 h1.innerText = "Welcome in Guessing Game!";
 app.appendChild(h1);
 
+const h6 = document.createElement("h6");
+h6.style.color = "blue";
+h6.innerText = "Time left: 180";
+app.appendChild(h6);
+
+// show user guesses
+const previousGausses = document.createElement("h6");
+previousGausses.style.color = "blue";
+app.appendChild(previousGausses);
 
 const button = document.createElement("button");
 button.innerText = "Start Game";
@@ -120,4 +144,7 @@ button.style.backgroundColor = "blue";
 button.style.color = "white";
 app.appendChild(button);
 
-button.addEventListener("click", init);
+drawTheBoard();
+displayTime();
+
+button.addEventListener("click", guessGame);
