@@ -35,26 +35,21 @@ function guessGame() {
             message += "\nPrevious guesses: " + userGuesses.join(", ");
             previousGausses.innerText = `your guesses : ${userGuesses}`;
 
-            // if (intGuess > luckyNumber) {
-            //     guess = prompt(`Too high. Guess again. \n${message}`);
-            // } else {
-            //     guess = prompt(`Too low. Guess again.\n${message}`);
-            // }
+            intGuess = getInput(intGuess > luckyNumber);
 
-            intGuess = checkGuess(guess);
             allowNumOfGuesses--;
         }
 
-        // if (intGuess === luckyNumber) {
-        //     window.alert(`Congratulations! The lucky number is ${luckyNumber}!`);
-        // } else {
-        //     window.alert("Sorry, you are out of guesses. The correct number was " + luckyNumber);
-        // }
+        if (intGuess === luckyNumber) {
+            window.alert(`Congratulations! The lucky number is ${luckyNumber}!`);
+        } else {
+            window.alert("Sorry, you are out of guesses. The correct number was " + luckyNumber);
+        }
 
     } catch (error) {
-        // window.alert(`Error: ${error.message}`);
+        window.alert(`Error: ${error.message}`);
     } finally {
-        // playAgain();
+        playAgain();
     }
 }
 
@@ -101,22 +96,20 @@ function drawTheBoard() {
     app.appendChild(board);
 }
 
-function displayTime() {
-    //update time every second
-    let time = 180;
-    setInterval(() => {
-        time--;
-        h6.innerText = `Time left: ${time}`;
-    }, 1000);
+function getInput(isLow) {
+    if (!isLow) {
+        guess = prompt(`Too high. Guess again. `);
+    } else {
+        guess = prompt(`Too low. Guess again.`);
+    }
+    return checkGuess(guess);
+}
 
-    //************Set Game Over**************** */
-    // game end after 3 minutes
-    // 3 minutes =  60 * 3 = 180 seconds 
-    // to milliseconds 180 * 1000 = 180000
+function displayTime() {
     setTimeout(() => {
         h6.style.color = "red";
         h6.innerText = "Game Over!";
-        // playAgain();
+        playAgain();
     }, 10000);
 }
 
