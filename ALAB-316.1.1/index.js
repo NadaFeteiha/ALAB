@@ -56,3 +56,24 @@ menuLinks.forEach(link => {
 // how to add user interaction to DOM elements
 
 
+//========================================================================================================
+// ALAB 316.3.1: 
+// Part 3: Creating the Submenu
+// TODO: 1.Select and cache the <nav id="sub-menu"> element in a variable named subMenuEl.
+const subMenuEl = document.getElementById("sub-menu");
+
+// TODO: 2.Set the height subMenuEl element to be "100%".
+subMenuEl.style.height = "100%";
+
+// TODO: 3.Set the background color of subMenuEl to the value stored in the --sub-menu-bg CSS custom property.
+subMenuEl.style.backgroundColor = "var(--sub-menu-bg)";
+
+// TODO: 4.Add the class of flex-around to the subMenuEl element.
+subMenuEl.classList.add("flex-around");
+
+
+// TODO: 1.Set the CSS position property of subMenuEl to the value of absolute.
+subMenuEl.style.position = "absolute";
+
+// TODO: 2.Set the CSS top property of subMenuEl to the value of 0.
+subMenuEl.style.top = 0;
