@@ -1,9 +1,33 @@
 // Menu data structure
-var menuLinks = [
+/*var menuLinks = [
     { text: 'about', href: '/about' },
     { text: 'catalog', href: '/catalog' },
     { text: 'orders', href: '/orders' },
     { text: 'account', href: '/account' },
+];*/
+
+var menuLinks = [
+    { text: 'about', href: '/about' },
+    {
+        text: 'catalog', href: '#', subLinks: [
+            { text: 'all', href: '/catalog/all' },
+            { text: 'top selling', href: '/catalog/top' },
+            { text: 'search', href: '/catalog/search' },
+        ]
+    },
+    {
+        text: 'orders', href: '#', subLinks: [
+            { text: 'new', href: '/orders/new' },
+            { text: 'pending', href: '/orders/pending' },
+            { text: 'history', href: '/orders/history' },
+        ]
+    },
+    {
+        text: 'account', href: '#', subLinks: [
+            { text: 'profile', href: '/account/profile' },
+            { text: 'sign out', href: '/account/signout' },
+        ]
+    },
 ];
 // Part 1: Getting Started
 //TODO: 1.Select and cache the <main> element in a variable named mainEl.
@@ -57,7 +81,10 @@ menuLinks.forEach(link => {
 
 
 //========================================================================================================
-// ALAB 316.3.1: 
+// ******************************************************************\\
+//                         ALAB 316.3.1:                              \\
+// *******************************************************************\\
+
 // Part 3: Creating the Submenu
 // TODO: 1.Select and cache the <nav id="sub-menu"> element in a variable named subMenuEl.
 const subMenuEl = document.getElementById("sub-menu");
@@ -77,3 +104,109 @@ subMenuEl.style.position = "absolute";
 
 // TODO: 2.Set the CSS top property of subMenuEl to the value of 0.
 subMenuEl.style.top = 0;
+
+//========================================================================================================
+// Part 4: Adding Menu Interaction
+// TODO: 1.Select and cache the all of the <a> elements inside of topMenuEl in a variable named topMenuLinks.
+
+let topMenuLinks = document.querySelectorAll("a");
+
+// TODO: 2.Attach a delegated 'click' event listener to topMenuEl.
+//      TODO: The first line of code of the event listener function should call the event object's preventDefault() method.
+//      TODO: The second line of code of the function should immediately return if the element clicked was not an <a> element.
+//      TODO: Log the content of the <a> to verify the handler is working.
+
+// TODO: Part 4: add a toggled "active" state to each menu item
+// TODO: Part 5: set the submenu to show or hide itself depending on the menu state:
+
+
+topMenuEl.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    if (event.target.tagName !== "A") {
+        return;
+    } else {
+        console.log(`HERE => ${event.target.textContent} clicked`);
+    }
+
+    removeActive();
+
+    // Find the clicked link object in menuLinks
+    const clickedLink = menuLinks.find(link => link.text === event.target.textContent);
+
+    // Toggle active state
+    if (!event.target.classList.contains("active")) {
+        event.target.classList.add("active");
+
+        //  display the submenu
+        if (clickedLink.subLinks) {
+
+            // here we check if the submenu is already open or not
+            if (subMenuEl.style.top === "100%") {
+                subMenuEl.style.top = "0"; // Hide submenu
+            } else {
+                subMenuEl.style.top = "100%"; // Show submenu
+                buildSubmenu(clickedLink.subLinks);
+            }
+
+        } else {
+            subMenuEl.style.top = "0"; // Hide submenu
+
+            // TODO: Update content of  h1
+            addContentToHeadline(event.target.textContent);
+        }
+    } else {
+        event.target.classList.remove("active");
+        subMenuEl.style.top = "0"; // Hide submenu when deactivating
+    }
+});
+
+subMenuEl.addEventListener("click", (event) => {
+    console.log(`HERE in top => ${event.target.textContent} clicked`);
+    event.preventDefault();
+
+    if (event.target.tagName !== "A") {
+        console.log(`HERE inside not a => ${event.target.textContent} clicked`);
+        return;
+    } else {
+        console.log(`HERE in subMenuEl => ${event.target.textContent} clicked`);
+    }
+
+    subMenuEl.style.top = "0";
+
+    removeActive();
+
+    // TODO: Update content of  h1
+    addContentToHeadline(event.target.textContent);
+});
+
+
+// Helper functions
+
+// Build the submenu
+function buildSubmenu(subLinks) {
+    subMenuEl.innerHTML = "";
+    subLinks.forEach(subLink => {
+        const subAEl = document.createElement("a");
+        subAEl.href = subLink.href;
+        subAEl.textContent = subLink.text;
+        subMenuEl.appendChild(subAEl);
+        console.log(`added => ${subLink.text}`);
+    });
+}
+
+// Remove active state
+function removeActive() {
+    topMenuLinks.forEach(link => {
+        if (link.classList.contains("active")) {
+            link.classList.remove("active");
+        }
+    });
+}
+
+// Update content of  h1
+function addContentToHeadline(content) {
+    h1El.textContent = content;
+}
+
+
