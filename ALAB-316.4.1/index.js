@@ -11,7 +11,7 @@ const email = registration.elements.email;
 const password = registration.elements.password;
 const confirmPassword = registration.elements.passwordCheck;
 
-// console.log(registration);
+console.log(registration);
 
 
 // email.addEventListener('focus', function () {
@@ -64,17 +64,21 @@ registration.addEventListener('submit', function (event) {
 
     const allErrors = [];
 
+    const usernameValue = username.value;
+    const passwordValue = password.value;
+
     // check all 
-    const checkUsername = validateUsername(username.value);
+    const checkUsername = validateUsername(usernameValue);
     const checkEmail = validateEmail(email.value);
-    const checkPassword = validatePassword(password.value, username.value);
-    const checkMatch = matchPasswords(password.value, confirmPassword.value);
+    const checkPassword = validatePassword(passwordValue, usernameValue);
+    const checkMatch = matchPasswords(passwordValue, confirmPassword.value);
     const terms = registration.elements.terms;
 
     // if success
     if (checkUsername.isValid && checkEmail.isValid && checkPassword.isValid && checkMatch && terms.checked) {
-        errorDisplay.style.display = 'none';
-        alert(`Registration successful 🎉 \nuserName: ${username.value} \nemail: ${email.value}`);
+        clearError();
+        addUser(usernameValue, passwordValue)
+        alert(`Registration successful 🎉 \nuserName: ${usernameValue} \nemail: ${email.value}`);
         // clear the form
         registration.reset();
     } else {
@@ -232,11 +236,14 @@ console.log(login.elements);
 
 login.addEventListener('submit', function (event) {
     event.preventDefault();
-    const username = login.elements.username.value;
-    const password = login.elements.password.value;
+    const username = this.username.value;
+    const password = this.password.value;
+    const keepLoggedIn = this.persist.checked;
 
-    if (!isNotEmptyOrBlank(username) || !isNotEmptyOrBlank(password)) {
-        if (!isNotEmptyOrBlank(username)) {
+    console.log(`${username} ${password}`);
+
+    if (isEmptyOrBlank(username) || isEmptyOrBlank(password)) {
+        if (!isEmptyOrBlank(username)) {
             this.username.focus();
         } else {
             this.password.focus();
@@ -245,10 +252,23 @@ login.addEventListener('submit', function (event) {
         return;
     }
 
-    if (username === 'test' && password === 'test') {
-        alert('🎉 Login successful 🎉');
+    if (!isUserExists(username)) {
+        console.log('User does not exist');
+        showError(['User does not exist']);
+        return;
+    } else if (isSameUsernameMatchPassword(username, password)) {
+        console.log('HEREEEEEE ');
+        if (keepLoggedIn) {
+            addUser(username, password);
+            alert(`🎉 Login successful 🎉 \n Welcome  ${username} Your info saved correctly!`);
+        } else {
+            alert(`🎉 Login successful 🎉 \n Welcome  ${username}!`);
+        }
+        login.reset();
     } else {
-        alert('Login failed 😢');
+        console.log('HEREEEEEE 3444');
+        this.password.focus();
+        showError(['Password is Wrong']);
     }
 });
 
@@ -257,6 +277,33 @@ login.addEventListener('input', function (event) {
 });
 
 
-function isNotEmptyOrBlank(value) {
-    return value.trim().length !== 0
+function isEmptyOrBlank(value) {
+    return value.trim().length === 0
+}
+
+
+// ******************* local Storage  *********************
+
+function isSameUsernameMatchPassword(username, password) {
+    console.log('isSameUsernameMatchPassword', username, password);
+    if (isUserExists(username)) {
+        let passwordLocal = localStorage.getItem(username.toLowerCase());
+        console.log(`PASSSSSSSSSWORD ${passwordLocal}  ${password}`)
+        return passwordLocal === password;
+    }
+    return false;
+}
+
+function isUserExists(username) {
+    return localStorage.getItem(username.toLowerCase()) !== null;
+}
+
+function addUser(username, password) {
+    console.log("here");
+    if (isUserExists(username)) {
+        return false;
+    } else {
+        localStorage.setItem(username.toLowerCase(), password);
+        return true;
+    }
 }
