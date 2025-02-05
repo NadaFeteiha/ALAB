@@ -121,11 +121,15 @@ registration.addEventListener('focusin', function (event) {
 // helper functions
 function showError(messages) {
     if (messages.length === 0) {
-        errorDisplay.style.display = 'none';
+        clearError();
     } else {
         errorDisplay.style.display = 'block';
         errorDisplay.innerHTML = messages.join('<br>');
     }
+}
+
+function clearError() {
+    errorDisplay.style.display = 'none';
 }
 
 // Registration validation 
@@ -222,3 +226,37 @@ function matchPasswords(password, confirmPassword) {
 }
 
 // TODO: 4.Terms and Conditions
+// ******************* Login *********************
+const login = document.getElementById('login');
+console.log(login.elements);
+
+login.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const username = login.elements.username.value;
+    const password = login.elements.password.value;
+
+    if (!isNotEmptyOrBlank(username) || !isNotEmptyOrBlank(password)) {
+        if (!isNotEmptyOrBlank(username)) {
+            this.username.focus();
+        } else {
+            this.password.focus();
+        }
+        showError(['Username and password cannot be blank']);
+        return;
+    }
+
+    if (username === 'test' && password === 'test') {
+        alert('🎉 Login successful 🎉');
+    } else {
+        alert('Login failed 😢');
+    }
+});
+
+login.addEventListener('input', function (event) {
+    clearError()
+});
+
+
+function isNotEmptyOrBlank(value) {
+    return value.trim().length !== 0
+}
