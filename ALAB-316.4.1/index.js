@@ -11,26 +11,6 @@ const email = registration.elements.email;
 const password = registration.elements.password;
 const confirmPassword = registration.elements.passwordCheck;
 
-console.log(registration);
-
-
-// email.addEventListener('focus', function () {
-//     console.log('email focus');
-//     checkUsername();
-// });
-
-// password.addEventListener('focus', function () {
-//     checkUsername();
-//     checkEmail();
-// });
-
-// confirmPassword.addEventListener('focus', function () {
-//     checkUsername();
-//     checkEmail();
-//     checkPassword();
-// });
-
-
 // check username validation
 function checkUsername() {
     const usernameValidation = validateUsername(username.value);
@@ -57,13 +37,11 @@ function checkPassword() {
     }
 }
 
-
 // change the input fields to border color red when there is an error
 registration.addEventListener('submit', function (event) {
     event.preventDefault();
 
     const allErrors = [];
-
     const usernameValue = username.value;
     const passwordValue = password.value;
 
@@ -257,7 +235,6 @@ login.addEventListener('submit', function (event) {
         showError(['User does not exist']);
         return;
     } else if (isSameUsernameMatchPassword(username, password)) {
-        console.log('HEREEEEEE ');
         if (keepLoggedIn) {
             addUser(username, password);
             alert(`🎉 Login successful 🎉 \n Welcome  ${username} Your info saved correctly!`);
@@ -266,7 +243,6 @@ login.addEventListener('submit', function (event) {
         }
         login.reset();
     } else {
-        console.log('HEREEEEEE 3444');
         this.password.focus();
         showError(['Password is Wrong']);
     }
@@ -285,10 +261,8 @@ function isEmptyOrBlank(value) {
 // ******************* local Storage  *********************
 
 function isSameUsernameMatchPassword(username, password) {
-    console.log('isSameUsernameMatchPassword', username, password);
     if (isUserExists(username)) {
         let passwordLocal = localStorage.getItem(username.toLowerCase());
-        console.log(`PASSSSSSSSSWORD ${passwordLocal}  ${password}`)
         return passwordLocal === password;
     }
     return false;
@@ -299,7 +273,6 @@ function isUserExists(username) {
 }
 
 function addUser(username, password) {
-    console.log("here");
     if (isUserExists(username)) {
         return false;
     } else {
