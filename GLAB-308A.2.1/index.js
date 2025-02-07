@@ -36,6 +36,9 @@ console.log("=============  Part 2: Class Fantasy ===============")
 // =======================================================================
 // Part 2: Class Fantasy
 class Character {
+
+    static MAX_HEALTH = 100;
+
     constructor(name) {
         this.name = name;
         this.health = 100;
@@ -50,11 +53,71 @@ class Character {
 
 const robin = new Character("Robin");
 robin.inventory = ["sword", "potion", "artifact"];
+
 robin.companion = new Character("Leo");
 robin.companion.type = "Cat";
+
 robin.companion.companion = new Character("Frank");
 robin.companion.companion.type = "Flea";
 robin.companion.companion.inventory = ["small hat", "sunglasses"];
 
 console.log(robin);
 robin.roll();
+
+//==================================================================
+console.log("=============  Part 3: Class Features ===============")
+// Part 3: Class Features
+// TODO: What else should an adventurer be able to do? 
+// TODO: What other properties should they have?
+
+class Adventurer extends Character {
+
+    static ROLES = ["Fighter", "Healer", "Wizard"];
+
+    constructor(name, role) {
+        super(name);
+        // Adventurers have specialized roles.
+        this.role = role;
+        // Every adventurer starts with a bed and 50 gold coins.
+        this.inventory.push("bedroll", "50 gold coins");
+    }
+    // Adventurers have the ability to scout ahead of them.
+    scout() {
+        console.log(`${this.name} is scouting ahead...`);
+        super.roll();
+    }
+}
+
+
+// TODO: create a Companion class with properties and 
+// TODO: methods specific to the companions.
+
+class Companion extends Character {
+
+    constructor(name, type) {
+        super(name);
+
+    }
+}
+
+// TODO: change the declaration of Robin and the companions 
+// TODO: to use the new Adventurer and Companion classes.
+const robin2 = new Adventurer("Robin", "Rogue");
+robin2.inventory = ["sword", "potion", "artifact"];
+
+robin2.companion = new Companion("Leo", "Cat");
+robin2.companion.type = "Cat";
+
+robin2.companion.companion = new Companion("Frank", "Flea");
+robin2.companion.companion.type = "Flea";
+robin2.companion.companion.inventory = ["small hat", "sunglasses"];
+console.log(robin2);
+
+// ===========================================================
+console.log("============ Part 4: Class Uniforms =================")
+// Part 4: Class Uniforms
+
+// TODO: Add a check to the constructor of the Adventurer class that 
+// TODO: ensures the given role matches one of these values.
+console.log("*********** Roles form Adventurer ******************")
+console.log(Adventurer.ROLES)
