@@ -32,6 +32,7 @@ for (i = 0; i < 5; i++) {
     adventurer.roll(i);
 }
 
+console.log("=============  Part 2: Class Fantasy ===============")
 // =======================================================================
 // Part 2: Class Fantasy
 class Character {
@@ -54,3 +55,6 @@ robin.companion.type = "Cat";
 robin.companion.companion = new Character("Frank");
 robin.companion.companion.type = "Flea";
 robin.companion.companion.inventory = ["small hat", "sunglasses"];
+
+console.log(robin);
+robin.roll();
