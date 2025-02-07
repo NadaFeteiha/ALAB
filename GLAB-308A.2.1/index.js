@@ -19,6 +19,17 @@ const adventurer = {
             type: "Flea",
             belongings: ["small hat", "sunglasses"]
         }
+    },
 
+    roll(mod = 0) {
+        const result = Math.floor(Math.random() * 20) + 1 + mod;
+        console.log(`${this.name} rolled a ${result}.`)
     }
 }
+
+// TODO: Test this method by calling adventurer.roll() a few times
+for (i = 0; i < 5; i++) {
+    adventurer.roll(i);
+}
+
+
