@@ -41,7 +41,7 @@ class Character {
 
     constructor(name) {
         this.name = name;
-        this.health = 100;
+        this.health = Character.MAX_HEALTH;
         this.inventory = [];
     }
 
@@ -78,7 +78,8 @@ class Adventurer extends Character {
     constructor(name, role) {
         super(name);
         // Adventurers have specialized roles.
-        if (!(role.toUpperCase() in Adventurer.ROLES)) {
+        //!(role.toUpperCase() in Adventurer.ROLES) why this not working?!
+        if (!Adventurer.ROLES.includes(role.toUpperCase())) {
             console.log(`Error role => ${role}`)
             console.log(`roles => ${Adventurer.ROLES}`)
             // throw new Error(`Invalid role: ${role}`);
@@ -143,8 +144,10 @@ class AdventurerFactory {
     }
 
     generate(name) {
+        console.log(`From generate ${this.role}`)
         const newAdventurer = new Adventurer(name, this.role);
         this.adventurers.push(newAdventurer);
+        return newAdventurer;
     }
 
     findByIndex(index) {
