@@ -69,15 +69,23 @@ console.log("=============  Part 3: Class Features ===============")
 // Part 3: Class Features
 // TODO: What else should an adventurer be able to do? 
 // TODO: What other properties should they have?
+// TODO: Add a check to the constructor of the Adventurer class that ensures the given role matches one of these values.
 
 class Adventurer extends Character {
 
-    static ROLES = ["Fighter", "Healer", "Wizard"];
+    static ROLES = ["FIGHTER", "HEALER", "WIZARD"];
 
     constructor(name, role) {
         super(name);
         // Adventurers have specialized roles.
-        this.role = role;
+        if (!(role.toUpperCase() in Adventurer.ROLES)) {
+            console.log(`Error role => ${role}`)
+            console.log(`roles => ${Adventurer.ROLES}`)
+            // throw new Error(`Invalid role: ${role}`);
+        } else {
+            this.role = role;
+        }
+
         // Every adventurer starts with a bed and 50 gold coins.
         this.inventory.push("bedroll", "50 gold coins");
     }
@@ -86,8 +94,19 @@ class Adventurer extends Character {
         console.log(`${this.name} is scouting ahead...`);
         super.roll();
     }
+
 }
 
+// Test role no in the list
+console.log("===============wrong role===============")
+try {
+    const robin3 = new Adventurer("Robin", "Test");
+    console.log(robin3);
+} catch (e) {
+    console.log(`HEREEEE => ${e}`);
+}
+
+console.log("========================================")
 
 // TODO: create a Companion class with properties and 
 // TODO: methods specific to the companions.
@@ -113,11 +132,33 @@ robin2.companion.companion.type = "Flea";
 robin2.companion.companion.inventory = ["small hat", "sunglasses"];
 console.log(robin2);
 
-// ===========================================================
-console.log("============ Part 4: Class Uniforms =================")
-// Part 4: Class Uniforms
+// =============================================
+console.log("=================== Gather your party =====================")
+// Part 5: Gather your party
+class AdventurerFactory {
 
-// TODO: Add a check to the constructor of the Adventurer class that 
-// TODO: ensures the given role matches one of these values.
-console.log("*********** Roles form Adventurer ******************")
-console.log(Adventurer.ROLES)
+    constructor(role) {
+        this.role = role;
+        this.adventurers = [];
+    }
+
+    generate(name) {
+        const newAdventurer = new Adventurer(name, this.role);
+        this.adventurers.push(newAdventurer);
+    }
+
+    findByIndex(index) {
+        return this.adventurers[index];
+    }
+
+    findByName(name) {
+        return this.adventurers.find((a) => a.name === name);
+    }
+}
+
+const healers = new AdventurerFactory("Healer");
+console.log(healers);
+
+const robin55 = healers.generate("Robin");
+
+// Part 6: Developing Skills
