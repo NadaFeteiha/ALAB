@@ -96,6 +96,46 @@ class Adventurer extends Character {
         super.roll();
     }
 
+
+    // TODO: Accept an Adventurer as a parameter.
+    duel(opponent) {
+        console.log(`${this.name} <=== VS ===> ${opponent.name}`);
+        let round = 1;
+        // TODO: Repeat this process until one of the two adventurers reaches 50 health.
+        while (this.health > 50 && opponent.health > 50) {
+
+            // TODO: Use the roll() to create opposing rolls for each adventurer.
+            const roll1 = this.roll();
+            const roll2 = opponent.roll();
+
+            if (roll1 > roll2) {
+                opponent.health -= 1;  // TODO: <= Subtract 1 from the adventurer
+                console.log(`${this.name} wins round ${round}!`);
+
+            } else if (roll2 > roll1) {
+                this.health -= 1; // TODO: <= Subtract 1 from the adventurer
+                console.log(`${opponent.name} wins round ${round}!`);
+            } else {
+                opponent.health -= 1;
+                this.health -= 1;
+                console.log("No weiners!");
+            }
+
+            // TODO: Log the results of this “round” of the duel, 
+            // TODO: including the rolls and current health values.
+            console.log(`${this.name} health: ${this.health}`);
+            console.log(`${opponent.name} health: ${opponent.health}`);
+            round++;
+            console.log(`==================********* New Round #${round} ************======================`)
+        }
+
+        // TODO: Log the winner of the duel: the adventurer still above 50 health.
+        if (this.health > 50) {
+            console.log(`${this.name} wins!`);
+        } else {
+            console.log(`${opponent.name} wins!`);
+        }
+    }
 }
 
 // Test role no in the list
@@ -116,7 +156,6 @@ class Companion extends Character {
 
     constructor(name, type) {
         super(name);
-
     }
 }
 
@@ -163,5 +202,11 @@ const healers = new AdventurerFactory("Healer");
 console.log(healers);
 
 const robin55 = healers.generate("Robin");
+const robin60 = healers.generate("Robin60");
 
+// =======================================================================
+console.log("=================== Part 6: Developing Skills =====================")
 // Part 6: Developing Skills
+robin55.duel(robin60);
+
+// =======================================================================
