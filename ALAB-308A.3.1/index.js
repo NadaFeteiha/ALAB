@@ -19,7 +19,7 @@ console.log("================ vault ====================")
 const val3 = await vault(1);
 console.log(val3);
 
-console.log("============================================")
+console.log("======================================================================================================")
 
 // todo: solve by =>    Promise chaining via then() statements
 // todo: then =>        async/await syntax
@@ -58,7 +58,7 @@ function getUserData(id) {
                 ...basic,
             };
         }).catch(e => {
-            return e.message;
+            throw new Error(`Error: ${e}`);
         });
 }
 
@@ -70,41 +70,68 @@ function getUserData(id) {
 //!     3. Invalid data types – strings, Booleans, etc.
 
 // test case 1: Valid user id
-console.log(`################# User id = 1 #################`);
-let user = await getUserData(1);
-console.log(user);
-console.log(`##################################`);
 
-console.log(`################# User id = 3 #################`);
-let user3 = await getUserData(3);
-console.log(user3);
-console.log(`######################################`);
+let user = getUserData(1)
+    .then(data => {
+        console.log(`################# User id = 1 #################`);
+        console.log(data);
+        console.log(`##################################`);
+    });
 
-console.log(`################# User id = 10 #################`);
-let user10 = await getUserData(10);
-console.log(user10);
-console.log(`######################################`);
 
+let user3 = getUserData(3)
+    .then(data => {
+        console.log(`################# User id = 3 #################`);
+        console.log(data);
+        console.log(`######################################`);
+    }).catch(e => {
+        console.log(e);
+    });
+
+let user10 = getUserData(10)
+    .then(data => {
+        console.log(`################# User id = 10 #################`);
+        console.log(data);
+        console.log(`######################################`);
+    }).catch(e => {
+        console.log(e);
+    });
 
 // test case 2: Invalid user id
-console.log(`################# User id = 0 #################`);
-let user0 = await getUserData(0);
-console.log(user0);
-console.log(`######################################`);
+let user0 = getUserData(0)
+    .then(data => {
+        console.log(`################# User id = 0 #################`);
+        console.log(data);
+        console.log(`######################################`);
+    })
+    .catch(e => {
+        console.log(e);
+    });
 
-console.log(`################# User id = -1 #################`);
-let userN = await getUserData(-1);
-console.log(userN);
-console.log(`######################################`);
 
-console.log(`################# User id = 20 #################`);
-let user20 = await getUserData(20);
-console.log(user20);
-console.log(`######################################`);
+let userN = getUserData(-1)
+    .then(data => {
+        console.log(data);
+    })
+    .catch(e => {
+        console.log(`################# User id = -1 #################`);
+        console.log(e);
+    });
+
+let user20 = getUserData(20)
+    .then(data => {
+        console.log(data);
+    })
+    .catch(e => {
+        console.log(`################# User id = 20 #################`);
+        console.log(e);
+    });
 
 // test case 3: Invalid data types
-
-console.log(`################# User id = S #################`);
-let userS = await getUserData('S');
-console.log(userS);
-console.log(`######################################`);
+let userS = getUserData('S')
+    .then(data => {
+        console.log(data);
+    }).catch(e => {
+        console.log(`################# User id = S #################`);
+        console.log(e);
+    });
