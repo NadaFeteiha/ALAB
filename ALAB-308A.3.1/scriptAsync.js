@@ -3,16 +3,12 @@ import { central, db1, db2, db3, vault } from "./databases.js";
 
 //? using async/await
 
-async function getUserInfo(dbs, dbName, id) {
-    return Promise.all([dbs[dbName](id), vault(id)])
-}
-
 async function getUserDataAsync(id) {
     const dbs = { db1: db1, db2: db2, db3: db3 };
     try {
         const dbName = await central(id);
 
-        return getUserInfo(dbs, dbName, id)
+        return Promise.all([dbs[dbName](id), vault(id)])
             .then(data => {
                 return {
                     id,
