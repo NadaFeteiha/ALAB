@@ -210,3 +210,18 @@ console.log("=================== Part 6: Developing Skills =====================
 robin55.duel(robin60);
 
 // =======================================================================
+console.log("=================== Part 7: Adventure Forth =====================")
+// Part 7: Adventure Forth
+// TODO: Generate a whole host of adventurers and their companions, 
+// TODO: and have them interact using the instance methods you have developed.
+
+
+// TODO: create other classes that can interact with your characters
+// TODO: but in a diﬀerent direction from adventurers or companions – dragons, orcs, elves, vampires
+
+
+
+
+// TODO: You can also create classes for the inventory itself, and include inventory methods such as adding,
+// TODO:  removing, searching, selling, trading. Even individual items could be their own classes, and have
+// TODO: properties and methods specific to the type of item.
