@@ -58,7 +58,7 @@ function getUserData(id) {
                 ...basic,
             };
         }).catch(e => {
-            console.error(`Error => ${e.message}`);
+            return e.message;
         });
 }
 
@@ -95,4 +95,16 @@ console.log(`######################################`);
 console.log(`################# User id = -1 #################`);
 let userN = await getUserData(-1);
 console.log(userN);
+console.log(`######################################`);
+
+console.log(`################# User id = 20 #################`);
+let user20 = await getUserData(20);
+console.log(user20);
+console.log(`######################################`);
+
+// test case 3: Invalid data types
+
+console.log(`################# User id = S #################`);
+let userS = await getUserData('S');
+console.log(userS);
 console.log(`######################################`);
