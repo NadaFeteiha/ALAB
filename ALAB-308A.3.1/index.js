@@ -43,20 +43,25 @@ function getUserData(id) {
         .then(dbName => {
             console.log(`HERE DB Name := ${dbName}`);
             return Promise.all([id, dbs[dbName](id), vault(id)]);
-        }).then(([id, basic, sensitive]) => {
+        }).then(([id, basic, userInfo]) => {
             console.log("*****************************************")
             console.log(`HERE Basic := ${basic.username}`);
-            console.log(`HERE Sensitive := ${sensitive.name} \n ${sensitive.email} \n ${sensitive.phone}`);
+            console.log(`HERE Info := ${userInfo.name} \n ${userInfo.email} \n ${userInfo.phone}`);
             console.log("*****************************************")
             return {
                 id,
-                ...sensitive,
-                ...basic,
+                name: userInfo.name,
+                email: userInfo.email,
+                phone: userInfo.phone,
+                username: basic.username,
+                address: { ...userInfo.address },
+                company: { ...basic.company },
+                website: basic.website
             };
         }).catch(e => {
             throw new Error(`Error: ${e}`);
         });
-        
+
     return result;
 }
 
