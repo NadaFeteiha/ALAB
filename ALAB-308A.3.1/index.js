@@ -54,10 +54,12 @@ function getUserData(id) {
             console.log("*****************************************")
             return {
                 id,
+                ...sensitive,
                 ...basic,
-                ...sensitive
             };
-        })
+        }).catch(e => {
+            console.error(`Error => ${e.message}`);
+        });
 }
 
 
@@ -76,4 +78,21 @@ console.log(`##################################`);
 console.log(`################# User id = 3 #################`);
 let user3 = await getUserData(3);
 console.log(user3);
+console.log(`######################################`);
+
+console.log(`################# User id = 10 #################`);
+let user10 = await getUserData(10);
+console.log(user10);
+console.log(`######################################`);
+
+
+// test case 2: Invalid user id
+console.log(`################# User id = 0 #################`);
+let user0 = await getUserData(0);
+console.log(user0);
+console.log(`######################################`);
+
+console.log(`################# User id = -1 #################`);
+let userN = await getUserData(-1);
+console.log(userN);
 console.log(`######################################`);
