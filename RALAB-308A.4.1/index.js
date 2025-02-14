@@ -30,19 +30,21 @@ async function initialLoad() {
         const response = await fetch("https://api.thecatapi.com/v1/breeds");
         const breeds = await response.json();
 
-        console.log(breeds);
-
+        // Creating new options for each breed
+        breeds.forEach((breed) => {
+            const option = document.createElement("option");
+            option.value = breed.id;
+            option.textContent = breed.name;
+            breedSelect.appendChild(option);
+        });
+        breedSelect.dispatchEvent(new Event('change'));
+        Carousel.start();
     } catch (e) {
         console.error(e);
     }
 }
 
-
-// For Test 
-const testBtn = document.getElementById("testBtn");
-testBtn.addEventListener("click", () => {
-    initialLoad();
-});
+initialLoad();
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
