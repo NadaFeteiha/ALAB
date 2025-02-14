@@ -23,7 +23,6 @@ const API_KEY = CAT_API_KEY;
  * This function should execute immediately.
  */
 
-
 async function initialLoad() {
     try {
         // Fetching the breeds from the cat API
@@ -37,13 +36,14 @@ async function initialLoad() {
             option.textContent = breed.name;
             breedSelect.appendChild(option);
         });
-        breedSelect.dispatchEvent(new Event('change'));
+
         Carousel.start();
     } catch (e) {
         console.error(e);
     }
 }
 
+// execute immediately
 initialLoad();
 
 /**
@@ -61,9 +61,15 @@ initialLoad();
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 
+
+
+
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
+
+
+
 /**
  * 4. Change all of your fetch() functions to axios!
  * - axios has already been imported for you within index.js.
@@ -73,12 +79,18 @@ initialLoad();
  *   by setting a default header with your API key so that you do not have to
  *   send it manually with all of your requests! You can also set a default base URL!
  */
+
+
+
 /**
  * 5. Add axios interceptors to log the time between request and response to the console.
  * - Hint: you already have access to code that does this!
  * - Add a console.log statement to indicate when requests begin.
  * - As an added challenge, try to do this on your own without referencing the lesson material.
  */
+
+
+
 
 /**
  * 6. Next, we'll create a progress bar to indicate the request is in progress.
@@ -95,6 +107,9 @@ initialLoad();
  *   once or twice per request to this API. This is still a concept worth familiarizing yourself
  *   with for future projects.
  */
+
+
+
 
 /**
  * 7. As a final element of progress indication, add the following to your axios interceptors:
