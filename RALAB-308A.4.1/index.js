@@ -23,13 +23,18 @@ const API_KEY = CAT_API_KEY;
  * This function should execute immediately.
  */
 
-function initialLoad() {
 
-    console.log("initialLoad");
+async function initialLoad() {
+    try {
+        // Fetching the breeds from the cat API
+        const response = await fetch("https://api.thecatapi.com/v1/breeds");
+        const breeds = await response.json();
 
-    console.log("API_KEY", API_KEY);
+        console.log(breeds);
 
-
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 
