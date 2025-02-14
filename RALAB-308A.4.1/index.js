@@ -1,5 +1,6 @@
 import * as Carousel from "./Carousel.js";
-import axios from "axios";
+import { API_KEY as CAT_API_KEY } from "./config.js";
+
 
 // The breed selection input element.
 const breedSelect = document.getElementById("breedSelect");
@@ -11,7 +12,7 @@ const progressBar = document.getElementById("progressBar");
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 
 // Step 0: Store your API key here for reference and easy access.
-const API_KEY = "";
+const API_KEY = CAT_API_KEY;
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -21,6 +22,22 @@ const API_KEY = "";
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
+
+function initialLoad() {
+
+    console.log("initialLoad");
+
+    console.log("API_KEY", API_KEY);
+
+
+}
+
+
+// For Test 
+const testBtn = document.getElementById("testBtn");
+testBtn.addEventListener("click", () => {
+    initialLoad();
+});
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
