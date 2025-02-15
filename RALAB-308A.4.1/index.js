@@ -14,6 +14,8 @@ const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 // Step 0: Store your API key here for reference and easy access.
 const API_KEY = CAT_API_KEY;
 
+const BASE_URL = "https://api.thecatapi.com/v1";
+
 /**
  * 1. Create an async function "initialLoad" that does the following:
  * - Retrieve a list of breeds from the cat API using fetch().
@@ -26,7 +28,7 @@ const API_KEY = CAT_API_KEY;
 async function initialLoad() {
     try {
         // Fetching the breeds from the cat API
-        const response = await fetch("https://api.thecatapi.com/v1/breeds");
+        const response = await fetch(`${BASE_URL}/breeds`);
         const breeds = await response.json();
 
         // Creating new options for each breed
@@ -37,7 +39,7 @@ async function initialLoad() {
             breedSelect.appendChild(option);
         });
 
-        Carousel.start();
+        setData(breeds[0].id);
     } catch (e) {
         console.error(e);
     }
@@ -52,17 +54,91 @@ initialLoad();
  *  - Make sure your request is receiving multiple array items!
  *  - Check the API documentation if you're only getting a single object.
  * - For each object in the response array, create a new element for the carousel.
- *  - Append each of these new elements to the carousel.
+ * 
+ * - Append each of these new elements to the carousel.
  * - Use the other data you have been given to create an informational section within the infoDump element.
- *  - Be creative with how you create DOM elements and HTML.
- *  - Feel free to edit index.html and styles.css to suit your needs, but be careful!
- *  - Remember that functionality comes first, but user experience and design are important.
+ * 
+ * 
+ * - Be creative with how you create DOM elements and HTML.
+ * - Feel free to edit index.html and styles.css to suit your needs, but be careful!
+ * - Remember that functionality comes first, but user experience and design are important.
  * - Each new selection should clear, re-populate, and restart the Carousel.
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 
 
+// TODO style to be a card with beautiful style later 
+function setInfoDump(breed) {
+    // remove all old children to set new ones
+    infoDump.replaceChildren();
 
+    const name = document.createElement("h2")
+    name.textContent = breed.name;
+
+    const description = document.createElement("p");
+    description.textContent = breed.description;
+
+    const origin = document.createElement("p");
+    origin.textContent = `Origin: ${breed.origin}`;
+
+    const life_span = document.createElement("p");
+    life_span.textContent = `Life Span: ${breed.life_span}`;
+
+    infoDump.appendChild(name);
+    infoDump.appendChild(description);
+    infoDump.appendChild(origin);
+    infoDump.appendChild(life_span);
+}
+
+async function getBreedDataByID(id) {
+    try {
+        const response = await fetch(`${BASE_URL}/breeds/${id}`, {
+            headers: {
+                "x-api-key": API_KEY
+            }
+        });
+
+        const breed = await response.json();
+        console.log(`breed: ${breed.name} ${breed.id}   ${breed.description}`);
+        setInfoDump(breed);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function getBreedImagesByID(id, limit = 20) {
+    try {
+        const response = await fetch(`${BASE_URL}/images/search?breed_ids=${id}&limit=${limit}`, {
+            headers: {
+                "x-api-key": API_KEY
+            }
+        });
+
+        const breedImages = await response.json();
+        console.log(`number of images: ${breedImages.length}`);
+
+        Carousel.clear();
+
+        breedImages.forEach(image => {
+            const carouselItem = Carousel.createCarouselItem(image.url, image.breeds[0].name, image.id);
+            Carousel.appendCarousel(carouselItem);
+        });
+
+        Carousel.start();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+breedSelect.addEventListener("change", () => {
+    console.log(`selected breed: ${breedSelect.value}`);
+    setData(breedSelect.value);
+});
+
+function setData(breedID) {
+    getBreedDataByID(breedID);
+    getBreedImagesByID(breedID);
+}
 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
