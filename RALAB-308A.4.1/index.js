@@ -1,20 +1,12 @@
-import * as Carousel from "./Carousel.js";
 import { API_KEY as CAT_API_KEY } from "./config.js";
-
-
-// The breed selection input element.
-const breedSelect = document.getElementById("breedSelect");
-// The information section div element.
-const infoDump = document.getElementById("infoDump");
-// The progress bar div element.
-const progressBar = document.getElementById("progressBar");
-// The get favourites button element.
-const getFavouritesBtn = document.getElementById("getFavouritesBtn");
+import * as Helper from './helper.js';
+import * as AxiosAPI from './axios-script.js';
 
 // Step 0: Store your API key here for reference and easy access.
 const API_KEY = CAT_API_KEY;
-
 const BASE_URL = "https://api.thecatapi.com/v1";
+
+const isUsingAxios = true;
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -31,13 +23,9 @@ async function initialLoad() {
         const response = await fetch(`${BASE_URL}/breeds`);
         const breeds = await response.json();
 
+        console.log(`$$$$ breeds: ${breeds.length}`);
         // Creating new options for each breed
-        breeds.forEach((breed) => {
-            const option = document.createElement("option");
-            option.value = breed.id;
-            option.textContent = breed.name;
-            breedSelect.appendChild(option);
-        });
+        Helper.setBreedsOptions(breeds);
 
         setData(breeds[0].id);
     } catch (e) {
@@ -46,7 +34,11 @@ async function initialLoad() {
 }
 
 // execute immediately
-initialLoad();
+if (!isUsingAxios) {
+    initialLoad();
+} else {
+    AxiosAPI.initialLoad();
+}
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
@@ -66,30 +58,6 @@ initialLoad();
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 
-
-// TODO style to be a card with beautiful style later 
-function setInfoDump(breed) {
-    // remove all old children to set new ones
-    infoDump.replaceChildren();
-
-    const name = document.createElement("h2")
-    name.textContent = breed.name;
-
-    const description = document.createElement("p");
-    description.textContent = breed.description;
-
-    const origin = document.createElement("p");
-    origin.textContent = `Origin: ${breed.origin}`;
-
-    const life_span = document.createElement("p");
-    life_span.textContent = `Life Span: ${breed.life_span}`;
-
-    infoDump.appendChild(name);
-    infoDump.appendChild(description);
-    infoDump.appendChild(origin);
-    infoDump.appendChild(life_span);
-}
-
 async function getBreedDataByID(id) {
     try {
         const response = await fetch(`${BASE_URL}/breeds/${id}`, {
@@ -100,7 +68,7 @@ async function getBreedDataByID(id) {
 
         const breed = await response.json();
         console.log(`breed: ${breed.name} ${breed.id}   ${breed.description}`);
-        setInfoDump(breed);
+        Helper.setInfoDump(breed);
     } catch (e) {
         console.error(e);
     }
@@ -116,15 +84,7 @@ async function getBreedImagesByID(id, limit = 20) {
 
         const breedImages = await response.json();
         console.log(`number of images: ${breedImages.length}`);
-
-        Carousel.clear();
-
-        breedImages.forEach(image => {
-            const carouselItem = Carousel.createCarouselItem(image.url, image.breeds[0].name, image.id);
-            Carousel.appendCarousel(carouselItem);
-        });
-
-        Carousel.start();
+        Helper.setImages(breedImages);
     } catch (e) {
         console.error(e);
     }
@@ -139,12 +99,6 @@ function setData(breedID) {
     getBreedDataByID(breedID);
     getBreedImagesByID(breedID);
 }
-
-/**
- * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
- */
-
-
 
 /**
  * 4. Change all of your fetch() functions to axios!
