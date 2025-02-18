@@ -10,6 +10,9 @@ export function createCarouselItem(imgSrc, imgAlt, imgId) {
     img.alt = imgAlt;
 
     const favBtn = clone.querySelector(".favourite-button");
+    // to set heart color
+    favBtn.dataset.imgId = imgId;
+
     favBtn.addEventListener("click", () => {
         favourite(imgId);
     });

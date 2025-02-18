@@ -6,7 +6,8 @@ import * as AxiosAPI from './axios-script.js';
 const API_KEY = CAT_API_KEY;
 const BASE_URL = "https://api.thecatapi.com/v1";
 
-const isUsingAxios = true;
+const isUsingAxios = false;
+let favorites = [];
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -17,6 +18,10 @@ const isUsingAxios = true;
  * This function should execute immediately.
  */
 
+/*
+* @method GET
+* @description get list of breeds from API
+*/
 async function initialLoad() {
     try {
         // Fetching the breeds from the cat API
@@ -26,7 +31,6 @@ async function initialLoad() {
         console.log(`$$$$ breeds: ${breeds.length}`);
         // Creating new options for each breed
         Helper.setBreedsOptions(breeds);
-
         setData(breeds[0].id);
     } catch (e) {
         console.error(e);
@@ -34,10 +38,11 @@ async function initialLoad() {
 }
 
 // execute immediately
-if (!isUsingAxios) {
-    initialLoad();
-} else {
+if (isUsingAxios) {
     AxiosAPI.initialLoad();
+} else {
+    await getFavorites();
+    initialLoad();
 }
 
 /**
@@ -58,6 +63,11 @@ if (!isUsingAxios) {
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 
+/*
+* @method GET
+* @param {string} id - breed id to get data from API
+* @description get breed data by id
+*/
 async function getBreedDataByID(id) {
     try {
         const response = await fetch(`${BASE_URL}/breeds/${id}`, {
@@ -74,6 +84,13 @@ async function getBreedDataByID(id) {
     }
 }
 
+/*
+* @method GET
+* @param {string} id - breed id to get images from API
+* @param {number} limit - limit of images to get
+* @description get breed images by id
+*/
+
 async function getBreedImagesByID(id, limit = 20) {
     try {
         const response = await fetch(`${BASE_URL}/images/search?breed_ids=${id}&limit=${limit}`, {
@@ -85,6 +102,8 @@ async function getBreedImagesByID(id, limit = 20) {
         const breedImages = await response.json();
         console.log(`number of images: ${breedImages.length}`);
         Helper.setImages(breedImages);
+        console.log(`#################set favorites: ${favorites.length}`);
+        Helper.setFavorites(favorites);
     } catch (e) {
         console.error(e);
     }
@@ -101,30 +120,6 @@ function setData(breedID) {
 }
 
 /**
- * 6. Next, we'll create a progress bar to indicate the request is in progress.
- * - The progressBar element has already been created for you.
- *  - You need only to modify its "width" style property to align with the request progress.
- * - In your request interceptor, set the width of the progressBar element to 0%.
- *  - This is to reset the progress with each request.
- * - Research the axios onDownloadProgress config option.
- * - Create a function "updateProgress" that receives a ProgressEvent object.
- *  - Pass this function to the axios onDownloadProgress config option in your event handler.
- * - console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
- *  - Update the progress of the request using the properties you are given.
- * - Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire
- *   once or twice per request to this API. This is still a concept worth familiarizing yourself
- *   with for future projects.
- */
-
-
-
-
-/**
- * 7. As a final element of progress indication, add the following to your axios interceptors:
- * - In your request interceptor, set the body element's cursor style to "progress."
- * - In your response interceptor, remove the progress cursor style from the body element.
- */
-/**
  * 8. To practice posting data, we'll create a system to "favourite" certain images.
  * - The skeleton of this function has already been created for you.
  * - This function is used within Carousel.js to add the event listener as items are created.
@@ -135,19 +130,111 @@ function setData(breedID) {
  *   you delete that favourite using the API, giving this function "toggle" functionality.
  * - You can call this function by clicking on the heart at the top right of any image.
  */
-export async function favourite(imgId) {
-    // your code here
+
+/**
+ check if the image is already in the favourites list call removeFavourite
+ else call setFavourite
+*/
+export function favourite(imgId) {
+    console.log(`=====================> favourite image id: ${imgId}`);
+    const obj = favorites.find(fav => fav.imgId === imgId);
+    if (obj !== undefined && obj !== null) {
+        if (isUsingAxios) {
+            AxiosAPI.removeFavourite(obj);
+        } else {
+            removeFavourite(obj);
+        }
+    } else {
+        if (isUsingAxios) {
+            AxiosAPI.favourite(imgId);
+        } else {
+            setFavourite(imgId);
+        }
+    }
+}
+
+// ********************** using fetch *********************\\
+/**
+ * @method POST
+ * @param {string} imgId - image id to favourite_id in API
+ * @description set favourite image 
+ */
+async function setFavourite(imgId) {
+    try {
+        const response = await fetch(`${BASE_URL}/favourites`, {
+            method: 'POST',
+            headers: {
+                "x-api-key": API_KEY,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                image_id: imgId
+            })
+        });
+
+        const result = await response.json();
+        Helper.setFavoriteColor(true, imgId);
+        favorites.push({
+            id: response.id,
+            imgId: imgId
+        });
+        console.log(`Set Favourite response: ${JSON.stringify(result)}`);
+    } catch (error) {
+        console.log(`Set Favourite error :${error}`);
+    }
 }
 
 /**
- * 9. Test your favourite() function by creating a getFavourites() function.
- * - Use Axios to get all of your favourites from the cat API.
- * - Clear the carousel and display your favourites when the button is clicked.
- *  - You will have to bind this event listener to getFavouritesBtn yourself.
- *  - Hint: you already have all of the logic built for building a carousel.
- *    If that isn't in its own function, maybe it should be so you don't have to
- *    repeat yourself in this section.
+ * @method delete
+ * @param {string} imgId - favourite id to delete
+ * @description remove favourite image 
  */
+async function removeFavourite(favoriteObj) {
+    try {
+        const response = await fetch(`${BASE_URL}/favourites/${favoriteObj.id}`, {
+            method: 'DELETE',
+            headers: {
+                "x-api-key": API_KEY,
+                "Content-Type": "application/json"
+            }
+        });
+
+        const result = await response.json();
+        Helper.setFavoriteColor(false, favoriteObj.imgId);
+        favorites = favorites.filter(fav => fav.imgId !== favoriteObj.imgId);
+        console.log(`Remove Favourite response: ${JSON.stringify(result)}`);
+    } catch (error) {
+        console.log(`Remove Favourite error :${error}`);
+    }
+}
+
+/**
+ * @method GET
+ * @description get list of favourites 
+ */
+async function getFavorites() {
+    try {
+        console.log('*********************** Get favorites ***********************');
+        const response = await fetch(`${BASE_URL}/favourites`, {
+            method: 'GET',
+            headers: {
+                "x-api-key": API_KEY
+            }
+        });
+        console.log(`heeeeeeereeee in favorites`);
+        const result = await response.json();
+        favorites = result.map(fav => {
+            return {
+                id: fav.id,
+                imgId: fav.image_id
+            };
+        });
+        // show the favorites in the console
+        console.log(`favorites: ${JSON.stringify(favorites)}`);
+    } catch (e) {
+        console.error(e);
+    }
+}
 
 /**
  * 10. Test your site, thoroughly!

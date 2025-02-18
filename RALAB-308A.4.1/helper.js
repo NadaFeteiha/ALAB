@@ -43,3 +43,18 @@ export function setImages(breedImages) {
 
     Carousel.start();
 }
+
+export function setFavorites(favorites) {
+    console.log(` color favorites: ${JSON.stringify(favorites)}`);
+
+    favorites.forEach(favorite => {
+        setFavoriteColor(true, favorite.imgId);
+    });
+}
+
+export function setFavoriteColor(selected, id) {
+    const hearts = document.querySelectorAll(`[data-img-id="${id}"]`);
+    hearts.forEach(heart => {
+        heart.style.color = selected ? "red" : "lightpink";
+    });
+}
