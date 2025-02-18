@@ -1,6 +1,7 @@
 import { API_KEY as CAT_API_KEY } from "./config.js";
 import * as Helper from './helper.js';
 import * as AxiosAPI from './axios-script.js';
+import * as Carousel from "./Carousel.js";
 
 // Step 0: Store your API key here for reference and easy access.
 const API_KEY = CAT_API_KEY;
@@ -226,7 +227,8 @@ async function getFavorites() {
         favorites = result.map(fav => {
             return {
                 id: fav.id,
-                imgId: fav.image_id
+                imgId: fav.image_id,
+                imgUrl: fav.image.url
             };
         });
         // show the favorites in the console
@@ -236,6 +238,21 @@ async function getFavorites() {
     }
 }
 
+export function displayFavoritesOnly() {
+    console.log(`$$$$$$$$$$$$$$$$$$$$$ display favorites only $$$$$$$$$$$$$$$$$$$$$$`);
+    Carousel.clear();
+
+    favorites.forEach(fav => {
+        const carouselItem = Carousel.createCarouselItem(fav.imgUrl, fav.imgUrl, fav.imgId);
+        Carousel.appendCarousel(carouselItem);
+    });
+
+    if (isUsingAxios) {
+        AxiosAPI.displayFavoritesOnly();
+    } else {
+        Helper.setFavorites(favorites);
+    }
+}
 /**
  * 10. Test your site, thoroughly!
  * - What happens when you try to load the Malayan breed?
