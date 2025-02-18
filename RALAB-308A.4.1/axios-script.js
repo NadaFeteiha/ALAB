@@ -15,7 +15,6 @@ import { API_KEY as CAT_API_KEY } from "./config.js";
  *   send it manually with all of your requests! You can also set a default base URL!
  */
 
-//TODO not done yet 
 /**
  * 5. Add axios interceptors to log the time between request and response to the console.
  * - Hint: you already have access to code that does this!
@@ -29,9 +28,27 @@ const BASE_URL = "https://api.thecatapi.com/v1";
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.common["x-api-key"] = API_KEY;
 
+//**************** interceptors ******************** */
+axios.interceptors.request.use(request => {
+    request.metadata = request.metadata || {};
+    request.metadata.startTime = new Date().getTime();
+    return request;
+});
+
+axios.interceptors.response.use(response => {
+    const elapsedTime = new Date().getTime() - response.config.metadata.startTime;
+    console.log(`Request Time ${elapsedTime}ms`);
+    return response;
+});
+
+
+/**
+ * @method GET 
+ * @description get list of breeds 
+ */
 export async function initialLoad() {
     try {
-        console.log('Start Axios');
+        console.log('begin request');
         const response = await axios.get('/breeds');
         const breeds = response.data.map(breed => {
             return {
