@@ -7,7 +7,7 @@ import * as Carousel from "./Carousel.js";
 const API_KEY = CAT_API_KEY;
 const BASE_URL = "https://api.thecatapi.com/v1";
 
-const isUsingAxios = true;
+const isUsingAxios = false;
 export let favorites = [];
 
 /**
