@@ -7,8 +7,8 @@ import * as Carousel from "./Carousel.js";
 const API_KEY = CAT_API_KEY;
 const BASE_URL = "https://api.thecatapi.com/v1";
 
-const isUsingAxios = false;
-let favorites = [];
+const isUsingAxios = true;
+export let favorites = [];
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -40,6 +40,7 @@ async function initialLoad() {
 
 // execute immediately
 if (isUsingAxios) {
+    await AxiosAPI.getFavourites();
     AxiosAPI.initialLoad();
 } else {
     await getFavorites();
@@ -147,7 +148,7 @@ export function favourite(imgId) {
         }
     } else {
         if (isUsingAxios) {
-            AxiosAPI.favourite(imgId);
+            AxiosAPI.setFavourite(imgId);
         } else {
             setFavourite(imgId);
         }

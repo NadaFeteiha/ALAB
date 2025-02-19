@@ -1,6 +1,6 @@
 import * as Helper from './helper.js';
 import { API_KEY as CAT_API_KEY } from "./config.js";
-
+import { favorites } from './index.js';
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
@@ -36,20 +36,16 @@ axios.defaults.onDownloadProgress = updateProgress;
 axios.interceptors.request.use(request => {
     request.metadata = request.metadata || {};
     request.metadata.startTime = new Date().getTime();
-
-    // progressBar.style.width = '0%';
-    // document.body.style.cursor = 'progress';
-
+    progressBar.style.width = '0%';
+    document.body.style.cursor = 'progress';
     return request;
 });
 
 axios.interceptors.response.use(response => {
     const elapsedTime = new Date().getTime() - response.config.metadata.startTime;
     console.log(`Request Time ${elapsedTime}ms`);
-
-    // progressBar.style.width = '100%';
-    // document.body.style.cursor = 'default';
-
+    progressBar.style.width = '100%';
+    document.body.style.cursor = 'default';
     return response;
 });
 
@@ -80,7 +76,7 @@ export async function initialLoad() {
 
 /**
  * @method GET
- * @param {string} id - breed id
+ * @param id - breed id
  * @description get breed data by id
  */
 export async function getBreedDataBID(id) {
@@ -96,7 +92,7 @@ export async function getBreedDataBID(id) {
 
 /**
  * @method GET
- * @param {string} id - breed id
+ * @param  id - breed id
  * @param {number} limit - number of images to return
  * @description get breed images by id
  */
@@ -105,6 +101,7 @@ export async function getBreedImagesByID(id, limit = 20) {
         const response = await axios.get(`/images/search?breed_ids=${id}&limit=${limit}`);
         const breedImages = response.data;
         Helper.setImages(breedImages);
+        Helper.setFavorites(favorites);
     } catch (e) {
         console.error(e);
     }
@@ -156,10 +153,18 @@ function updateProgress(progressEvent) {
  */
 export async function getFavourites() {
     try {
+        console.log('@@@ Get Axios favourites @@@');
         const response = await axios.get('/favourites');
-        const favourites = response.data;
-        console.log(`favourites: ${favourites}`);
-        Helper.setImages(favourites);
+        const favoritesData = response.data;
+
+        favorites.length = 0;
+        favorites.push(...favoritesData.map(favorite => ({
+            id: favorite.id,
+            imgId: favorite.image_id,
+            imgUrl: favorite.image.url
+        })));
+
+        console.log(`favorites Axios: ${JSON.stringify(favorites)}`);
     } catch (e) {
         console.error(e);
     }
@@ -178,16 +183,40 @@ export async function getFavourites() {
  */
 /**
  * @method POST
- * @param {string} imgId - image id to favourite_id in API
+ * @param {string} image_id - image id to image id in API
  * @description favourite image
  */
-export async function favourite(imgId) {
+export async function setFavourite(imgId) {
     try {
         const response = await axios.post('/favourites', {
-            favourite_id: imgId
+            image_id: imgId
+        });
+
+        Helper.setFavoriteColor(true, imgId);
+
+        favorites.push({
+            id: response.data.id,
+            imgId: imgId,
+            imgUrl: response.data.image.url
         });
         console.log(`Set Favourite response:${response.data}`);
     } catch (error) {
         console.log(`Set Favourite error :${error}`);
+    }
+}
+
+/**
+ * @method delete
+ * @param {string} imgId - favourite id to delete
+ * @description remove favourite image 
+ */
+export async function removeFavourite(favoriteObj) {
+    try {
+        const response = await axios.delete(`/favourites/${favoriteObj.id}`);
+        Helper.setFavoriteColor(false, favoriteObj.imgId);
+        // remove from favorites
+        favorites = favorites.filter(fav => fav.imgId !== favoriteObj.imgId);
+    } catch (error) {
+        console.log(`Remove Favourite error: ${error}`);
     }
 }

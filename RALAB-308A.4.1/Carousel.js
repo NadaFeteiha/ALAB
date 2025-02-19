@@ -53,10 +53,15 @@ export function start() {
             function () {
                 if (scrollPosition < carouselWidth - cardWidth * 4) {
                     scrollPosition += cardWidth;
+
+
+                    // the animation need to check here =>>>>>>>>>>>
                     $("#carouselExampleControls .carousel-inner").animate(
                         { scrollLeft: scrollPosition },
                         600
                     );
+
+                    
                 }
             }
         );
