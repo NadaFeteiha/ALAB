@@ -80,7 +80,7 @@ class NCycle<T> {
     }
 
     print(par: number = 0) {
-        if (Array.isArray(this.make) && Array.isArray(this.model)) {
+        if (!Array.isArray(this.make) && !Array.isArray(this.model)) {
             console.log(`This is a ${this.make} ${this.model} NCycle.`);
         } else if (Array.isArray(this.make) && Array.isArray(this.model)
             && this.make.length > par && this.model.length > par) {
