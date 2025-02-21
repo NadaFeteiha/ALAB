@@ -2,9 +2,9 @@
 
 type makeV = string;
 
+// TODO: For "status," use a union of literals to declare valid status options: "started" or "stopped"
 
 class Vehicle {
-    // TODO: For "status," use a union of literals to declare valid status options: "started" or "stopped"
     status: "started" | "stopped" = "stopped";
     make: string;
     model: string;
@@ -80,7 +80,6 @@ class NCycle<T> {
     }
 
     print(par: number = 0) {
-        // "This is a <make> <model> NCycle." if make and model are not arrays.
         if (Array.isArray(this.make) && Array.isArray(this.model)) {
             console.log(`This is a ${this.make} ${this.model} NCycle.`);
         } else if (Array.isArray(this.make) && Array.isArray(this.model)
