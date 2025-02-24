@@ -6,7 +6,7 @@ function EmployeeList({ employees }) {
 
     employees.forEach(employeeItem => {
         items.push(
-            <EmployeeListItem name={employeeItem.name} position={employeeItem.position} />
+            <EmployeeListItem name={employeeItem.name} position={employeeItem.position} imgUrl={employeeItem.image} />
         );
     });
 

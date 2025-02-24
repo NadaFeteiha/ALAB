@@ -1,9 +1,12 @@
 
-function EmployeeListItem({ name, position }) {
+function EmployeeListItem({ name, position, imgUrl }) {
     return (
         <div className='employee'>
-            <h3>{name}</h3>
-            <p>{position}</p>
+            <img className="profile-img" src={imgUrl} alt={name} />
+            <div>
+                <h3>{name}</h3>
+                <p>{position}</p>
+            </div>
         </div>
     );
 }
