@@ -1,3 +1,9 @@
+.homepage {
+    border: 3px solid orange;
+    padding: 10px;
+    border-radius: 10px;
+}
+
 .header {
     text-align: center;
     font-family: 'Arial';

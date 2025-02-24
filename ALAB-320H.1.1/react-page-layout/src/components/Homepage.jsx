@@ -5,11 +5,11 @@ import SearchBar from './SearchBar';
 function Homepage() {
 
     return (
-        <>
+        <div className='homepage'>
             <Header />
             <SearchBar />
             <EmployeeList employees={employees} />
-        </>
+        </div>
     )
 }
 
