@@ -23,3 +23,17 @@
     border: 1px solid grey;
     border-radius: 10px;
 }
+
+
+.employee-list {
+    border: 3px solid purple;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.employee {
+    border: 1px solid red;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
