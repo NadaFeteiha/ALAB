@@ -1,9 +1,11 @@
-import '../App.css';
+import Header from './Header';
 
 function Homepage() {
 
     return (
-        <h1 className='header'>Homepage</h1>
+        <>
+            <Header />
+        </>
     )
 }
 
