@@ -1,7 +1,7 @@
 import { ImageArticle } from "./ImageArticle"
 
-export default function Article({ article }) {
-
+export default function Article(props) {
+    const article = props.article
     return (
         <div className='article'>
             <h3>{article.date}</h3>
