@@ -1,17 +1,18 @@
-import Tab from "./Tab";
+import '../App.css';
 
-export function NavTab() {
+export default function NavBar() {
 
     const tabs = ['Women\'s', 'Men\'s', 'On the Street', 'The Catwalk', 'AdWatch', 'About'];
 
-    const items = [];
-    for (let tab of tabs) {
-        items.push(<Tab title={tab} />);
-    }
-
     return (
-        <div>
-            {tabs}
-        </div>
+        <nav className="navbar">
+            <ul className="nav-list">
+                {tabs.map((tab, index) => (
+                    <li key={index} className="nav-item">
+                        <a> {tab}</a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
     );
-}
+};

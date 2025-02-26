@@ -1,17 +1,17 @@
 import './App.css'
-import ArticalsView from './components/ArticalsView'
-import { Header } from './components/Header'
-import { NavTab } from './components/NavTab'
+import Home from './components/home'
+import VerticalLine from './components/VerticalLine'
 
 function App() {
 
   return (
     <>
-      <Header />
-      <NavTab />
-      <ArticalsView />
+      <div className='app'>
+        <VerticalLine />
+        <Home />
+      </div>
     </>
-  )
+  );
 }
 
 export default App
