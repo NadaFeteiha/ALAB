@@ -7,9 +7,7 @@ export default function Article({ article }) {
             <h3>{article.date}</h3>
             <h2>{article.title}</h2>
             <ImageArticle title={article.title} id={article.id} />
-            <p>
-                {article.content}
-            </p>
+            <p className="text-article">  {article.content}   </p>
             <div className="continue">
                 <button>Continues...</button>
             </div>

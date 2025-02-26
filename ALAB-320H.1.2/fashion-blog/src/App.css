@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -96,6 +96,10 @@
     height: auto;
 }
 
+.article p{
+    color: rgb(92, 92, 92);
+}
+
 .continue {
     width: 100%;
     display: flex;
@@ -120,4 +124,21 @@ hr {
     background-color: lightgrey;
     width: 100%;
     margin-top: 30px;
+}
+
+.text-article {
+    font-weight: lighter;
+    font-size: large;
+    line-height: 1.5;
+}
+
+.text-article:first-letter {
+    float: left;
+    font-weight: bold;
+    font-size: 60px;
+    font-size: 6rem;
+    line-height: 40px;
+    line-height: 4rem;
+    height: 4rem;
+    text-transform: uppercase;
 }
