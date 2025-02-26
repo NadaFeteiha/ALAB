@@ -1,8 +1,7 @@
 
-
+//  <div className='vertical-line'></div>
 export default function VerticalLine() {
-    
     return (
-        <div className='vertical-line'></div>
+       <hr className='vertical-line' />
     )
 }

@@ -1,16 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .app {
     display: flex;
     flex-direction: row;
+    justify-content: start;
     width: 100%;
     height: 100vh;
 }
 
 .vertical-line {
-    width: 40px;
-    align-self: stretch;
-    background-color: lightgrey;
-    margin: 0 10px;
-    margin-right: 50px;
+    border: none;
+    height: 1000px;
+    width: 35px;
+    background-color: lightgray;
+    margin: 0 5px;
+    margin-right: 30px;
 }
 
 .header {
@@ -33,7 +41,8 @@
 }
 
 .navbar {
-    padding: 10px 20px;
+    padding: 50px 0;
+    padding-right: 20px;
 }
 
 .nav-list {
@@ -45,8 +54,6 @@
     width: 100%;
 }
 
-/* make underline the text */
-
 .nav-item {
     display: inline-block;
     color: lightslategrey;
@@ -56,4 +63,61 @@
     text-decoration-color: lightgrey;
     text-decoration-thickness: 3px;
     text-underline-offset: 5px;
+}
+
+.article {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-right: 20px;
+    gap: 20px;
+}
+
+.article h2 {
+    font-weight: lighter;
+    color: black;
+    font-size: xx-large;
+}
+
+.article p {
+    font-weight: lighter;
+    color: black;
+}
+
+.article h3 {
+    font-weight: lighter;
+    color: grey;
+    font-size: xx-large;
+}
+
+.article img {
+    width: 100%;
+    height: auto;
+}
+
+.continue {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+
+}
+
+.continue button {
+    background-color: transparent;
+    color: red;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.5em;
+    font-weight: lighter;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background-color: lightgrey;
+    width: 100%;
+    margin-top: 30px;
 }

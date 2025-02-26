@@ -1,4 +1,4 @@
-import Artical from "./Artical"
+import Article from "./Article"
 
 const articalList = [
     {
@@ -18,7 +18,7 @@ const articalList = [
 export default function ArticalsView() {
     const list = []
     for (let i = 0; i < articalList.length; i++) {
-        list.push(<Artical artical={articalList[i]} />)
+        list.push(<Article article={articalList[i]} />)
     }
     return (
         <div className='articals-view'>

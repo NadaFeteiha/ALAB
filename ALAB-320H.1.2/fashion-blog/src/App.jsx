@@ -1,6 +1,6 @@
 import './App.css'
 import Home from './components/home'
-import VerticalLine from './components/VerticalLine'
+import VerticalLine from './components/VerticalLine.jsx'
 
 function App() {
 
