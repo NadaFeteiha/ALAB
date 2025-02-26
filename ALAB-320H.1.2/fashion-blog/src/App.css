@@ -65,6 +65,12 @@
     text-underline-offset: 5px;
 }
 
+.nav-item-footer {
+    color: red;
+    font-size: 1.5em;
+    font-weight: lighter;
+}
+
 .article {
     width: 100%;
     display: flex;
@@ -96,7 +102,7 @@
     height: auto;
 }
 
-.article p{
+.article p {
     color: rgb(92, 92, 92);
 }
 
@@ -141,4 +147,10 @@ hr {
     line-height: 4rem;
     height: 4rem;
     text-transform: uppercase;
+}
+
+.footer {
+    color: grey;
+    padding-bottom: 30px;
+
 }
