@@ -1,0 +1,16 @@
+.footer {
+    background-color: #4f5052;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer__links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}

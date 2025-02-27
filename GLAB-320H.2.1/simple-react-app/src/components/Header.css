@@ -1,0 +1,39 @@
+.header {
+    background-color: rgb(200, 198, 205);
+    text-align: center;
+    padding-top: 50px;
+    border-bottom: 2px dashed rgb(54, 39, 105);
+}
+
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: lighter;
+    font-size: 5rem;
+    color: rgb(54, 39, 105);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.nav-list li {
+    color: rgb(41, 33, 67);
+    font-size: 1.5em;
+    font-weight: lighter;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: inherit;
+}
