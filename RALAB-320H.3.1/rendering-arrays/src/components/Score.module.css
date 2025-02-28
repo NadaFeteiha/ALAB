@@ -1,0 +1,7 @@
+.row {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border: 1px dashed rgb(93, 23, 23);
+    border-radius: 5px;
+}

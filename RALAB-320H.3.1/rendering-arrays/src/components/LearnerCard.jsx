@@ -6,7 +6,11 @@ function LearnerCard({ learner }) {
         <div className={styles.card}>
             <h2>{learner.name}</h2>
             <p>{learner.bio}</p>
-            <Score />
+            {
+                learner.scores.map((score, index) => {
+                    return <Score key={index} score={score} />
+                })
+            }
         </div>
     );
 }

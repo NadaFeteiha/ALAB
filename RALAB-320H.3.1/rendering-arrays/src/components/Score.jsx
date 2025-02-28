@@ -1,8 +1,11 @@
+import styles from './Score.module.css';
 
-export default function Score() {
+export default function Score({ score }) {
+
     return (
-        <div>
-            <h2>Score:</h2>
-        </div>
+        <tr className={styles.row}>
+            <td>{score.date}</td>
+            <td>{score.score}</td>
+        </tr>
     );
 }
