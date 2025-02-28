@@ -5,11 +5,7 @@ import styles from './Learners.module.css';
 export default function Learners({ learnerList }) {
     return (
         <div className={styles.body}>
-            <div>
-                <h2>Learners</h2>
-                <button>Add new Learner</button>
-            </div>
-
+            <h2>Learners</h2>
             <div className={styles.container}>
                 {
                     learnerList.map((learner) => (
