@@ -1,13 +1,21 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import learners from './data/Learner.js'
+import Learners from './components/Learners'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [learnerList, setLearnerList] = useState(learners)
+
+
+  function addNewLearner() {
+    //TODO
+    // setLearnerList()
+  }
 
   return (
     <>
       <h1>Rendering Arrays</h1>
+      <Learners learnerList={learnerList} />
     </>
   )
 }
