@@ -8,16 +8,21 @@ function App() {
   const [learnerList, setLearnerList] = useState(learners)
 
 
-  function addNewLearner() {
-    //TODO
-    // setLearnerList()
+  function addNewLearner(newLearner) {
+    const learnerWithId = {
+      id: learnerList.length + 1,
+      name: newLearner.name,
+      bio: newLearner.bio,
+      scores: [],
+    };
+
+    setLearnerList((prev) => [...prev, learnerWithId]);
   }
 
   return (
     <>
       <h1>Rendering Arrays</h1>
       <Learners learnerList={learnerList} />
-
       <Form addNewLearner={addNewLearner} />
     </>
   )
