@@ -2,11 +2,11 @@
 
 This project is a simple React application designed to search for movies using an external API. It is built using Vite for fast development and includes some ESLint rules for code quality.
 
-![Project Image](https://github.com/NadaFeteiha/ALAB/blob/main/GLAB-320H.7.1/movie-search/src/assets/Screenshot%202025-02-27%20at%201.24.07%E2%80%AFPM.png)
+![Project Image](https://github.com/NadaFeteiha/ALAB/blob/main/GLAB-320H.7.1/movie-search/src/assets/Screenshot%202025-03-05%20at%209.05.01%E2%80%AFAM.png)
 
 
 ## Project Structure
-
+```
 /movie-search
 ├── public
 │   └── index.html
@@ -24,6 +24,7 @@ This project is a simple React application designed to search for movies using a
 ├── package.json
 ├── vite.config.js
 └── README.md
+```
 
 ## API Key
 
