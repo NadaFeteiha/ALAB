@@ -10,7 +10,7 @@ form {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: 1px solid #ccc;
+    border: 1px solid #1f0909;
     border-radius: 5px;
     padding: 5px;
 }
@@ -19,14 +19,20 @@ input {
     width: 100%;
     padding: 10px;
     border: none;
+    background: #2d2c2c;
     border-radius: 5px;
+    color: #bbb3b3;
+}
+
+input:focus {
+    outline: none;
 }
 
 input[type="submit"] {
     width: 20%;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: white;
+    background-color: #0f1011;
+    color: rgb(237, 234, 234);
     cursor: pointer;
 }

@@ -1,5 +1,5 @@
 
 
-export default function RandomNumber(max = 9, min = 1) {
+export default function RandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
