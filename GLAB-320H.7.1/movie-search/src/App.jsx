@@ -1,13 +1,11 @@
-import { useState, useEffect, cache } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
-import API_KEY from './data/ApiKey'
-
-// Import our components
 import MovieDisplay from "./components/MovieDisplay";
 import Form from "./components/Form"
 import RandomNumber from './data/RandomNumber';
 
 const BASE_URL = "http://www.omdbapi.com/?";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 function App() {
   const [movie, setMovie] = useState(null);
@@ -25,7 +23,7 @@ function App() {
 
   useEffect(() => {
     //tt120 1607
-    const id = `tt120160${RandomNumber()}${RandomNumber()}`;
+    const id = `tt1201607`//${RandomNumber()}${RandomNumber()};
     console.log(id);
 
     (async () => {
