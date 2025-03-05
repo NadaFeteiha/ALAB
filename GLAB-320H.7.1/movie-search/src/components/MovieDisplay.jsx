@@ -1,20 +1,20 @@
+import style from './MovieDisplay.module.css';
 
-
-export default function MovieDisplay({ movie }) {
+export default function MovieDisplay({ movie, isLoading }) {
     const loaded = () => {
         return (
-            <>
-                <h1>{movie.Title}</h1>
-                <h2>{movie.Genre}</h2>
+            <div className={style.container}>
                 <img src={movie.Poster} alt={movie.Title} />
-                <h2>{movie.Year}</h2>
-            </>
+                <div className={style.movie} >
+                    <h1>{movie.Title}</h1>
+                    <h2>{movie.Genre}</h2>
+                    <h2>{movie.Year}</h2>
+                </div>
+            </div>
         );
     };
 
-    const loading = () => {
-        return <h1>No Movie to Display</h1>;
-    };
+    const loading = () => { return; };
 
-    return movie ? loaded() : loading();
+    return isLoading ? loading() : loaded();
 }

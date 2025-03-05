@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import style from "./Form.module.css";
 
 export default function Form(props) {
-    const [formData, setFormData] = useState({
-        searchterm: "",
-    });
+    const [formData, setFormData] = useState({ searchterm: "",});
 
     const handleChange = (event) => {
         setFormData({
@@ -18,7 +17,7 @@ export default function Form(props) {
     };
 
     return (
-        <div>
+        <div className={style.container}>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -26,7 +25,7 @@ export default function Form(props) {
                     onChange={handleChange}
                     value={formData.searchterm}
                 />
-                <input type="submit" value="submit" />
+                <input type="submit" value="search" />
             </form>
         </div>
     );
