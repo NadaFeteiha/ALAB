@@ -2,7 +2,7 @@
 
 This is a simple Todo List application built with HTML, CSS, and JavaScript.
 
-![Todo List App Screenshot](./assets/screenshot.png)
+![Todo List App Screenshot](https://github.com/NadaFeteiha/ALAB/blob/main/ALAB-320H.9.1/todo-list-app/src/assets/screenshot.png)
 
 
 ## Features
