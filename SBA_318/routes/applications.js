@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const applications = require("../data/applications");
+const companies = require("../data/companies");
 
 const validStatuses = ["pending", "accepted", "rejected"];
 
@@ -10,19 +11,50 @@ router
         const { status, company } = req.query;
         let filteredApps = applications;
 
-
         if (status) filteredApps = filteredApps.filter(app => app.status.toLowerCase() === status.toLowerCase());
-        if (company) filteredApps = filteredApps.filter(app => app.company.toLowerCase() === company.toLowerCase());
 
-        res.json(filteredApps);
+        // get company id from company name
+        if (company) {
+            const companyObj = companies.find(c => c.name.toLowerCase() === company.toLowerCase());
+            if (!companyObj) {
+                return res.status(404).json({ error: "Company not found try to add first to companies." });
+            }
+            filteredApps = filteredApps.filter(app => app.companyId === companyObj.id);
+        }
+
+        const filteredApps2 = applications.map(application => {
+            const company = companies.find(company => company.id === application.companyId);
+
+            return {
+                ...application,
+                company: {
+                    name: company.name,
+                    industry: company.industry,
+                    employees: company.employees,
+                    webpage: company.webpage,
+                    email: company.email
+                }
+            };
+        });
+
+        res.json(filteredApps2);
     })
     .post("/", (req, res) => {
         const newApplication = { id: applications.length + 1, ...req.body };
 
         //validate request
         if (!newApplication.company || !newApplication.position) {
-            res.status(400).json({ msg: "Please include company, and position" });
-            return;
+            return res.status(400).json({ msg: "Please include company, and position" });
+        }
+
+        const company = companies.find(c => c.id === newApplication.companyId);
+        // check if company exists
+        if (!company) {
+            return res.status(400).json({ msg: "Company not found" });
+        } else {
+            newApplication.companyId = company.id;
+            // remove company from the object newApplication
+            delete newApplication.company;
         }
 
         // set default status to pending if not provided
