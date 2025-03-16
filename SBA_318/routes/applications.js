@@ -7,6 +7,26 @@ const companies = require("../data/companies");
 const validStatuses = ["pending", "accepted", "rejected"];
 
 router
+    .get("/form", (req, res) => {
+
+        const newFormatApplications = applications.map(application => {
+            const company = companies.find(company => company.id === application.companyId);
+            return {
+                ...application,
+                company: {
+                    name: company.name,
+                    industry: company.industry,
+                    employees: company.employees,
+                    webpage: company.webpage,
+                    email: company.email
+                }
+            };
+        });
+
+        res.render('applications', { applications: newFormatApplications });
+    });
+
+router
     .get("/", (req, res) => {
         const { status, company } = req.query;
         let filteredApps = applications;

@@ -9,6 +9,11 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(morgan("morgan"));
 app.use(express.static("public"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ extends: true }));
+app.set('view engine', 'ejs');
+
 
 // Routes
 const applicationRoutes = require("./routes/applications");
