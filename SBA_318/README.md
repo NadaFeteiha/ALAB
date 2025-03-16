@@ -8,18 +8,21 @@ The project structure is organized as follows:
 
 ```
 job-application-api/
-├── node_modules/       # Project dependencies
-├── src/                # Source files
-│   ├── controllers/    # Route handlers
-│   ├── models/         # Database models
-│   ├── routes/         # API routes
-│   ├── services/       # Business logic
-│   ├── app.js          # Express app setup
-│   └── server.js       # Server entry point
-├── .gitignore          # Git ignore file
-├── package.json        # Project metadata and dependencies
-├── package-lock.json   # Dependency tree lock file
-└── README.md           # Project documentation
+│
+├── data/
+│   ├── applications.js
+│   ├── companies.js
+│   └── users.js
+│
+├── routes/
+│   └── applications.js
+|   └── companies.js
+│
+├── views/
+│   └── applications.ejs
+├── .gitignore
+├── package.json
+└── README.md
 ```
 
 ## API Endpoints
