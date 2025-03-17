@@ -1,11 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
+// Joi is a validator library that can be used to validate request data
+const Joi = require("joi");
+
 const applications = require("../data/applications");
 const companies = require("../data/companies");
 const users = require("../data/users");
 
 const validStatuses = ["pending", "accepted", "rejected"];
+
+//  ** Joi Schema for Validation **
+const applicationSchema = Joi.object({
+    company: Joi.string().min(2).max(100).required(),
+    position: Joi.string().min(2).max(100).required(),
+    status: Joi.string().valid(...validStatuses).default("pending")
+});
+
 
 // Helper functions 
 const getUserDetails = (userId) => users.find(user => user.id === userId);
@@ -26,8 +37,6 @@ const formatApplication = (application) => {
         company: company
     };
 };
-
-
 
 router.get("/form", (req, res) => {
     const newFormatApplications = applications.map(formatApplication);
@@ -60,9 +69,11 @@ router
     .post("/", (req, res) => {
         const newApplication = { id: applications.length + 1, ...req.body };
 
-        // Validate request body
-        if (!newApplication.company || !newApplication.position) {
-            return res.status(400).json({ msg: "Please include company and position" });
+
+        const { error, value } = applicationSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
         }
 
         const company = getCompanyByName(newApplication.company);

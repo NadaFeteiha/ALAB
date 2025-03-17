@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
 const companies = require("../data/companies");
-
 
 router
     .get("/", (req, res) => {
