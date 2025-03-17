@@ -179,7 +179,7 @@ Example response:
 1. Start the server:
 
    ```bash
-   npm start
+    npm run dev
    ```
 
-2. The server will run on `http://localhost:3000`.
+2. The server will run on `http://localhost:4000`.
