@@ -233,4 +233,4 @@ const companies = [
     }
 ];
 
-module.exports = companies;
+export default companies;

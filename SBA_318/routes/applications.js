@@ -1,17 +1,14 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+import Joi from 'joi';
+import applications from "../data/applications.js";
+import companies from "../data/companies.js";
+import users from "../data/users.js";
 
-// Joi is a validator library that can be used to validate request data
-const Joi = require("joi");
-
-const applications = require("../data/applications");
-const companies = require("../data/companies");
-const users = require("../data/users");
-
+export const applicationRoutes = new Router();
 const validStatuses = ["pending", "accepted", "rejected"];
 
 //  ** Joi Schema for Validation **
-const applicationSchema = Joi.object({
+export const applicationSchema = Joi.object({
     company: Joi.string().min(2).max(100).required(),
     position: Joi.string().min(2).max(100).required(),
     status: Joi.string().valid(...validStatuses).default("pending")
@@ -24,6 +21,7 @@ const getCompanyDetails = (companyId) => companies.find(company => company.id ==
 const getCompanyByName = (name) => {
     return companies.find(company => company.name.toLowerCase() === name.toLowerCase());
 }
+
 const formatApplication = (application) => {
     const user = getUserDetails(application.userId);
     const company = getCompanyDetails(application.companyId);
@@ -31,19 +29,24 @@ const formatApplication = (application) => {
     delete application.userId;
     delete application.companyId;
 
-    return {
+    const result = {
         ...application,
-        user: user,
-        company: company
+        user: user || { id: null, name: 'Unknown User' },
+        company: company || { id: null, name: 'Unknown Company' }
     };
+
+    console.log(result);
+
+    return result;
 };
 
-router.get("/form", (req, res) => {
-    const newFormatApplications = applications.map(formatApplication);
+const newFormatApplications = applications.map(formatApplication);
+
+applicationRoutes.get("/form", (req, res) => {
     res.render('applications', { applications: newFormatApplications });
 });
 
-router
+applicationRoutes
     .get("/", (req, res) => {
         const { status, company } = req.query;
         let filteredApps = applications;
@@ -69,16 +72,15 @@ router
     .post("/", (req, res) => {
         const newApplication = { id: applications.length + 1, ...req.body };
 
-
         const { error, value } = applicationSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ error: error.details[0].message });
+            return res.status(400).json({ error: value });
         }
 
         const company = getCompanyByName(newApplication.company);
         if (!company) {
-            return res.status(400).json({ msg: "Company not found" });
+            return res.status(400).json({ msg: "Company not found Please add this company " });
         }
 
         // Set default status to pending if not found
@@ -91,7 +93,10 @@ router
 
         applications.push(newApplication);
 
-        res.status(200).json(newApplication);
+        res.status(200).json({
+            status: "success",
+            data: newApplication
+        });
     })
     .patch("/:id", (req, res) => {
         const application = applications.find(app => app.id == req.params.id);
@@ -115,6 +120,3 @@ router
         applications.splice(applicationIndex, 1);
         res.status(200).send("Application deleted successfully");
     });
-
-
-module.exports = router;

@@ -1,6 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const companies = require("../data/companies");
+import express from "express";
+import companies from "../data/companies.js";
+
+export const router = express.Router();
 
 router
     .get("/", (req, res) => {
@@ -50,6 +51,3 @@ router
 
         res.status(200).send("Company deleted successfully");
     });
-
-
-module.exports = router;

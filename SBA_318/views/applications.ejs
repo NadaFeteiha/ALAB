@@ -3,6 +3,7 @@
 
 <head>
     <title>Job Tracker</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
@@ -11,13 +12,13 @@
     <ul>
         <% applications.forEach(app=> { %>
             <li>
-                <%= app.company.name %> - <%= app.position %> (<%= app.status %>)
+                <%= app.company.name%> - <%= app.position%> (<%= app.status%>)
             </li>
             <% }) %>
     </ul>
     <form action="/applications" method="POST">
         <input type="text" name="company" placeholder="Company" required>
-        <input type="text" name="title" placeholder="Job Title" required>
+        <input type="text" name="position" placeholder="Job Title" required>
         <select name="status" placeholder="Status">
             <option value="pending">Pending</option>
             <option value="accepted">Accepted</option>

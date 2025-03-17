@@ -241,4 +241,5 @@ const applications = [
     }
 ];
 
-module.exports = applications;
+export default applications;
+
