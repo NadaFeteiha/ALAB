@@ -26,9 +26,6 @@ const GradesSchema = new mongoose.Schema(
     scores: {
       default: [score],
     }
-  },
-  {
-    collection: "grades"
   }
 );
 

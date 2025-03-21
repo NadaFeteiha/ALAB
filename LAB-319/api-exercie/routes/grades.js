@@ -1,5 +1,4 @@
 import express from "express";
-// import db from "../db/conn.js";
 import { ObjectId } from "mongodb";
 import Grades from "../models/Grades.js";
 
@@ -37,7 +36,6 @@ router.get("/class/:id", async (req, res) => {
 
 // Create a single grade entry
 router.post("/", async (req, res) => {
-    // let collection = await db.collection("grades");
     let newDocument = req.body;
 
     // rename fields for backwards compatibility
@@ -56,29 +54,26 @@ Add a new score.
 */
 
 router.patch("/:id/add", async (req, res) => {
-    let collection = await db.collection("grades");
-    let query = { _id: new ObjectId(req.params.id) };
-    let newScore = req.body;
+    let updateDocument = req.body;
 
-    let result = await
-        collection
-            .updateOne(query, { $push: { scores: newScore } }); // Add a new score to the scores array  
-
-    res.send(result).status(204);
+    let result = await Grades.findOneAndUpdate(
+        { _id: req.params.id },
+        { $push: { scores: updateDocument } },
+        { new: true }
+    )
+    res.status(204).send(result);
 }
 );
 
 //Remove a score.
 router.patch("/:id/remove", async (req, res) => {
-    let collection = await db.collection("grades");
-    let query = { _id: new ObjectId(req.params.id) };
-    let newScore = req.body;
-
-    let result = await
-        collection
-            .updateOne(query, { $pull: { scores: newScore } }); // Remove a score from the scores array
-
-    res.send(result).status(204);
+    let updateDocument = req.body;
+    let result = await Grades.findOneAndUpdate(
+        { _id: req.params.id },
+        { $pull: { scores: updateDocument } },
+        { new: true }
+    )
+    res.status(204).send(result);
 }
 );
 
